@@ -1,0 +1,280 @@
+###########################################################################
+###                                                                     ###
+###                             Git Tutorial                            ###
+###                                                                     ###
+###     0.0.        Set Up                                              ###
+###     0.1.        Authorization                                       ###
+###     1.0.        Initialization                                      ###
+###     1.1.        Structure                                           ###
+###     2.0.        File Tracking                                       ###
+###     3.0.        Branches                                            ###
+###     4.0.        Revert                                              ###
+###                                                                     ###
+###########################################################################
+
+
+
+###########################################################################
+###     0.0.        Set Up                                              ###
+###########################################################################
+
+### Download git from https://git-scm.com/downloads
+### git update-git-for-windows
+
+git config --global color.ui auto
+git config --global user.name "[Last_Name], [First_Name]"
+git config --global user.email "[EmailAddress]"
+
+
+
+###########################################################################
+###     0.1.        Authorization                                       ###
+###########################################################################
+
+### Generate SSH key
+# Powershell : Get-Service -Name ssh-agent | Set-Service -StartupType Manual
+cd %HOMEPATH%\.ssh
+ssh-keygen -t ed25519 -C "xufreddy9@gmail.com"
+type id_ed25519
+clip < id_ed25519.pub
+ssh-add id_ed25519
+
+### Add it to Github
+# https://github.com/settings/ssh
+
+
+
+###########################################################################
+###     1.0.        Initialization                                      ###
+###########################################################################
+
+### Creating template repository, henceforth referred to as repo.
+
+mkdir git_empty
+cd git_empty
+git init
+echo "Hello world." > git_file.txt
+echo Hi world. >> git_file.txt
+
+### Pushing repo to github (or bitbucket).
+### The verify SSL options (secure sockets layer)
+###     are to get around VPN (virtual prviate network) defaults.
+### If needed, create a new online repo with
+###     curl
+###         -u f-ready:password
+###         -d '{"name":"git_empty"}'
+###         https://api.github.com/user/repos
+
+git remote -v
+git remote add origin git@github.com:f-super-ready/repo.git
+git remote -v
+git remote set-url origin git@github.com:f-ready/repo.git
+git remote -v
+git status
+git add git_file.txt
+git status
+git commit -m "Initialization file."
+git push -u origin master
+git -c http.sslVerify=false push -u origin master
+
+
+### Pulling repo from github
+
+cd ..
+rmdir /s git_empty
+git -c http.sslVerify=false clone https://github.com/f-ready/git_tutorial.git
+
+
+
+###########################################################################
+###     1.1.        Structure                                           ###
+###########################################################################
+
+### Creating folder structure.
+
+move git_tutorial.txt git_tutorial
+cd git_tutorial
+mkdir data
+mkdir models\model_001
+mkdir models\model_002
+mkdir models\model_003
+mkdir analysis\analysis_001
+mkdir analysis\analysis_002
+mkdir analysis\analysis_003
+git status
+tree /f
+
+
+### Populating empty folders.
+### An empty folder contains nothing but folders
+
+type NUL > .gitkeep
+git status
+type NUL > data\.gitkeep
+type NUL > models\model_001\.gitkeep
+type NUL > models\model_002\.gitkeep
+type NUL > models\model_003\.gitkeep
+type NUL > analysis\analysis_001\.gitkeep
+type NUL > analysis\analysis_002\.gitkeep
+type NUL > analysis\analysis_003\.gitkeep
+tree /f
+git status
+git add -A
+git status
+git commit -m "Folder structure."
+
+
+### Creating realistic folder structure.
+
+echo miscellaneous > misc.txt
+
+cd data
+(echo col_id,col_1,col_2
+echo 1,val_1_1,vol_1_2
+echo 2,val_2_1,val_2_2
+) > file_1.csv
+copy file_1.csv file_2.csv
+copy file_1.csv file_3.csv
+
+cd ..\models
+echo name:model_001 > model_001\info.config
+echo year:2021 >> model_001\info.config
+echo name:model_002 > model_002\info.config
+echo year:2022 >> model_002\info.config
+echo name:model_003 > model_003\info.config
+echo year:2023 >> model_003\info.config
+
+(echo var_1
+echo var_2
+echo var_3
+) > model_001\variables.config
+copy model_001\variables.config model_002\variables.config
+copy model_001\variables.config model_003\variables.config
+
+echo miscellaneous > model_001\misc.txt
+copy model_001\misc.txt model_001\1_misc.txt
+copy model_001\misc.txt model_001\2_misc.txt
+copy model_001\misc.txt model_001\3_misc.txt
+copy model_001\misc.txt model_001\misc_1.txt
+copy model_001\misc.txt model_001\misc_2.txt
+copy model_001\misc.txt model_001\misc_3.txt
+copy model_001\misc.txt model_002\misc.txt
+copy model_001\misc.txt model_002\1_misc.txt
+copy model_001\misc.txt model_002\2_misc.txt
+copy model_001\misc.txt model_002\3_misc.txt
+copy model_001\misc.txt model_002\misc_1.txt
+copy model_001\misc.txt model_002\misc_2.txt
+copy model_001\misc.txt model_002\misc_3.txt
+copy model_001\misc.txt model_003\misc.txt
+copy model_001\misc.txt model_003\1_misc.txt
+copy model_001\misc.txt model_003\2_misc.txt
+copy model_001\misc.txt model_003\3_misc.txt
+copy model_001\misc.txt model_003\misc_1.txt
+copy model_001\misc.txt model_003\misc_2.txt
+copy model_001\misc.txt model_003\misc_3.txt
+
+echo special > model_001\spec.txt
+copy model_001\spec.txt model_002\spec.txt
+copy model_001\spec.txt model_003\spec.txt
+
+cd ..\analysis
+echo All the results > results.rslt
+echo All the benefits > benefits.bnft
+echo All the profits > profits.prft
+echo None of the costs > costs.cst
+copy results.rslt backup_results.rslt
+copy results.rslt results_backup.rslt
+copy benefits.bnft backup_benefits.bnft
+copy benefits.bnft benefits_backup.bnft
+copy profits.prft backup_profits.prft
+copy profits.prft profits_backup.prft
+copy costs.cst backup_costs.cst
+copy costs.cst costs_backup.cst
+
+
+copy results.rslt analysis_001\results.rslt
+copy results.rslt analysis_001\backup_results.rslt
+copy results.rslt analysis_001\results_backup.rslt
+copy benefits.bnft analysis_001\benefits.bnft
+copy benefits.bnft analysis_001\backup_benefits.bnft
+copy benefits.bnft analysis_001\benefits_backup.bnft
+copy profits.prft analysis_001\profits.prft
+copy profits.prft analysis_001\backup_profits.prft
+copy profits.prft analysis_001\profits_backup.prft
+copy costs.cst analysis_001\costs.cst
+copy costs.cst analysis_001\backup_costs.cst
+copy costs.cst analysis_001\costs_backup.cst
+
+copy results.rslt analysis_002\results.rslt
+copy results.rslt analysis_002\backup_results.rslt
+copy results.rslt analysis_002\results_backup.rslt
+copy benefits.bnft analysis_002\benefits.bnft
+copy benefits.bnft analysis_002\backup_benefits.bnft
+copy benefits.bnft analysis_002\benefits_backup.bnft
+copy profits.prft analysis_002\profits.prft
+copy profits.prft analysis_002\backup_profits.prft
+copy profits.prft analysis_002\profits_backup.prft
+copy costs.cst analysis_002\costs.cst
+copy costs.cst analysis_002\backup_costs.cst
+copy costs.cst analysis_002\costs_backup.cst
+
+copy results.rslt analysis_003\results.rslt
+copy results.rslt analysis_003\backup_results.rslt
+copy results.rslt analysis_003\results_backup.rslt
+copy benefits.bnft analysis_003\benefits.bnft
+copy benefits.bnft analysis_003\backup_benefits.bnft
+copy benefits.bnft analysis_003\benefits_backup.bnft
+copy profits.prft analysis_003\profits.prft
+copy profits.prft analysis_003\backup_profits.prft
+copy profits.prft analysis_003\profits_backup.prft
+copy costs.cst analysis_003\costs.cst
+copy costs.cst analysis_003\backup_costs.cst
+copy costs.cst analysis_003\costs_backup.cst
+
+
+cd ..
+tree /f
+
+
+###########################################################################
+###     2.0.        File Tracking                                       ###
+###########################################################################
+
+git status
+git add -A
+git status
+git reset HEAD data/file_1.csv
+git reset HEAD data/file_2.csv
+git reset HEAD data/file_3.csv
+git status
+git reset HEAD
+git status
+
+type NUL > .gitignore
+
+
+### Nothing in data is important.
+# data/*
+
+### Only some model files are important.
+# models/**
+# !models/*
+# !models/*/spec.txt
+# !models/*/*.config
+
+### Only some analysis files are not important.
+# analysis/**/*backup*
+
+git add -A
+git commit -m "Folder structure with content."
+
+
+###########################################################################
+###     3.0.        Branches                                            ###
+###########################################################################
+
+
+
+###########################################################################
+###     4.0.        Revert                                              ###
+###########################################################################
