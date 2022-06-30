@@ -22,8 +22,8 @@
 ### git update-git-for-windows
 
 git config --global color.ui auto
-git config --global user.name "[Last_Name], [First_Name]"
-git config --global user.email "[EmailAddress]"
+git config --global user.name "Xu, Freddy"
+git config --global user.email "xufreddy9@gmail.com"
 
 
 
@@ -41,6 +41,15 @@ ssh-add id_ed25519
 
 ### Add it to Github
 # https://github.com/settings/ssh
+
+###########################################################################
+
+
+
+### Add it to Windows Credential Manager
+# git:https://github.com
+# User name : <f-ready>
+# Password : personal_access_token
 
 
 
@@ -74,8 +83,9 @@ git status
 git add git_file.txt
 git status
 git commit -m "Initialization file."
-git push -u origin master
-git -c http.sslVerify=false push -u origin master
+git branch -M main
+git push -u origin main
+git -c http.sslVerify=false push -u origin main
 
 
 ### Pulling repo from github
