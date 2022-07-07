@@ -44,7 +44,8 @@ ssh-add id_ed25519
 
 ###########################################################################
 
-
+### Get Personal Access Token
+# https://github.com/settings/tokens
 
 ### Add it to Windows Credential Manager
 # git:https://github.com
