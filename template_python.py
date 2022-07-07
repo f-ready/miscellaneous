@@ -2,11 +2,9 @@
 ###                                                                     ###
 ###                          Table of Contents                          ###
 ###                                                                     ###
-###     0.0.        Dependent Libraries                                 ###
 ###     0.          Dependent Libraries                                 ###
 ###     1.          Variable Initialization                             ###
 ###     z.          Clean Up                                            ###
-###     z.          Miscellaneous                                       ###
 ###                                                                     ###
 ###########################################################################
 ###                                                                     ###
