@@ -93,7 +93,7 @@ git -c http.sslVerify=false push -u origin main
 
 cd ..
 rmdir /s git_empty
-git -c http.sslVerify=false clone https://github.com/f-ready/git_tutorial.git
+git -c http.sslVerify=false clone https://github.com/f-ready/miscellaneous.git
 
 
 
