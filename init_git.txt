@@ -66,6 +66,7 @@ git init
 echo "Hello world." > git_file.txt
 echo Hi world. >> git_file.txt
 
+
 ### Pushing repo to github (or bitbucket).
 ### The verify SSL options (secure sockets layer)
 ###     are to get around VPN (virtual prviate network) defaults.
@@ -201,7 +202,6 @@ copy profits.prft backup_profits.prft
 copy profits.prft profits_backup.prft
 copy costs.cst backup_costs.cst
 copy costs.cst costs_backup.cst
-
 
 copy results.rslt analysis_001\results.rslt
 copy results.rslt analysis_001\backup_results.rslt
