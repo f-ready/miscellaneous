@@ -143,7 +143,7 @@ call find_cols('data_schema', 'elusive_col');
 
 -- show roles like '%admin%';
 -- use role accountadmin;
--- grant role accountadmin to user "freddy.xu@csaa.com";
+-- grant role accountadmin to user "xufreddy9@gmail.com";
 -- use role accountadmin;
 
 --+---------------------------------------------------------------------+--
