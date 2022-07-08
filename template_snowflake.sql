@@ -32,7 +32,9 @@ use schema data_schema;
 --+     1.          Functions                                           +--
 --+---------------------------------------------------------------------+--
 
-create or replace procedure get_cols("tbl" string)
+create or replace procedure get_cols(
+    "tbl" string,
+    "lower_upper_exact" string)
     returns variant
     language javascript
     as
@@ -46,12 +48,24 @@ create or replace procedure get_cols("tbl" string)
     stmt = snowflake.createStatement({sqlText : cmd});
     query_return = stmt.execute();
     while (query_return.next()) {
-       query_result.push(query_return.getColumnValue(3).toLowerCase());
-       }
+        switch(lower_upper_exact) {
+            case "lower":
+                query_result.push(query_return.getColumnValue(3).toLowerCase());
+                break;
+            case "upper":
+                query_result.push(query_return.getColumnValue(3).toUpperCase());
+                break;
+            default:
+                query_result.push(query_return.getColumnValue(3));
+                break;
+            }
+     }
     return query_result;
     $$;
 
-create or replace procedure get_tbls("db_schema" string)
+create or replace procedure get_tbls(
+    "db_schema" string,
+    "lower_upper_exact" string)
     returns variant
     language javascript
     as
@@ -65,13 +79,24 @@ create or replace procedure get_tbls("db_schema" string)
     stmt = snowflake.createStatement({sqlText : cmd});
     query_return = stmt.execute();
     while (query_return.next()) {
-       query_result.push(query_return.getColumnValue(2).toLowerCase());
-       }
+        switch(lower_upper_exact) {
+            case "lower":
+                query_result.push(query_return.getColumnValue(2).toLowerCase());
+                break;
+            case "upper":
+                query_result.push(query_return.getColumnValue(2).toUpperCase());
+                break;
+            default:
+                query_result.push(query_return.getColumnValue(2));
+                break;
+            }
+        }
     return query_result;
     $$;
 
 create or replace procedure find_cols(
-        "db_schema" string, "search_substr" string)
+    "db_schema" string,
+    "search_substr" string)
     returns variant
     language javascript
     as
@@ -82,18 +107,18 @@ create or replace procedure find_cols(
     var query_result = null;
     var tbls = [];
     var cols = [];
-    var tbl = '';
-    var col = '';
-    var found_cols = [];
+    var tbl = "";
+    var col = "";
+    var cols_found = [];
     query_result = [];
-    cmd = `call get_tbls('${db_schema}');`
+    cmd = `call get_tbls('${db_schema}', 'lower');`
     stmt = snowflake.createStatement({sqlText : cmd});
     query_return = stmt.execute();
     query_return.next();
     tbls = query_return.getColumnValue(1);
     for (let i = 0; i < tbls.length; i++) {
         tbl = tbls[i];
-        cmd = `call get_cols('${db_schema}.${tbl}');`
+        cmd = `call get_cols('${db_schema}.${tbl}', 'lower');`
         stmt = snowflake.createStatement({sqlText : cmd});
         query_return = stmt.execute();
         query_return.next();
@@ -101,11 +126,11 @@ create or replace procedure find_cols(
         for (let j = 0; j < cols.length; j++) {
             col = cols[j];
             if (col.includes(search_substr)) {
-                found_cols.push(`${tbl}.${col}`);
+                cols_found.push(`${tbl}.${col}`);
             }
         }
     }
-    return found_cols;
+    return cols_found;
     $$;
 
 call find_cols('data_schema', 'elusive_col');
@@ -139,11 +164,11 @@ select
 --+---------------------------------------------------------------------+--
 
 show procedures;
-desc procedure get_cols(varchar);
-desc procedure get_tbls(varchar);
+desc procedure get_cols(varchar, varchar);
+desc procedure get_tbls(varchar, varchar);
 desc procedure find_cols(varchar, varchar);
-drop procedure if exists get_cols(varchar);
-drop procedure if exists get_tbls(varchar);
+drop procedure if exists get_cols(varchar, varchar);
+drop procedure if exists get_tbls(varchar, varchar);
 drop procedure if exists find_cols(varchar, varchar);
 show procedures;
 
