@@ -146,7 +146,6 @@ create or replace procedure find_cols(
     var tbl = "";
     var col = "";
     var cols_found = [];
-    query_result = [];
     cmd = `call get_tbls('${db_schema}', 'lower');`
     stmt = snowflake.createStatement({sqlText : cmd});
     query_return = stmt.execute();
