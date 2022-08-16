@@ -146,14 +146,14 @@ create or replace procedure find_cols(
     var tbl = "";
     var col = "";
     var cols_found = [];
-    cmd = `call get_tbls('${db_schema}', 'lower');`
+    cmd = `call get_tbls('${db_schema}', 'lower');`;
     stmt = snowflake.createStatement({sqlText : cmd});
     query_return = stmt.execute();
     query_return.next();
     tbls = query_return.getColumnValue(1);
     for (let i = 0; i < tbls.length; i++) {
         tbl = tbls[i];
-        cmd = `call get_cols('${db_schema}.${tbl}', 'lower');`
+        cmd = `call get_cols('${db_schema}.${tbl}', 'lower');`;
         stmt = snowflake.createStatement({sqlText : cmd});
         query_return = stmt.execute();
         query_return.next();
